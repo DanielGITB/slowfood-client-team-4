@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './App.css'
+import LoginForm from './components/LoginForm'
 
 // let foodlist = [
 //   ['potatis', 'plockad på dom hallänska vidderna', 98],
@@ -29,6 +30,16 @@ class App extends Component {
   }
 
   render () {
+    const renderLogin = this.state.renderLoginForm ? (
+      <LoginForm />
+    ) : (
+      <button
+      id="login"
+      onClick={() => this.setState({ renderLoginForm: true })}
+      >
+        Login
+      </button>
+    );
     const foodItems = this.state.foodItems;
     let menuList;
 
@@ -47,7 +58,9 @@ class App extends Component {
     return (
       <>
         <h1>Slowfood</h1>
+        {renderLogin}
         <div className='foodlist'>{menuList}</div>
+
       </>
     )
   }
