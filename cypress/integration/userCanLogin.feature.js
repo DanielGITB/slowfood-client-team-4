@@ -2,7 +2,7 @@ describe("User authenticates", () => {
     beforeEach(() => {
         cy.visit("/");
     });
-});
+
 
 it("successfully with valid credentials", () => {
     cy.get("#login").click();
@@ -12,4 +12,14 @@ it("successfully with valid credentials", () => {
         cy.get('button').contains('Submit').click()
     });
     cy.get("#message").should("contain", "Hi user@mail.com");
+});
+
+it("unsuccessfully with invalid credentials", () => {
+    cy.get("#login").click();
+    cy.get("#login-form").within(() => {
+        cy.get("#email").type("wrongpassword");
+        cy.get('button').contains('Submit').click()
+    });
+    cy.get("#message").should("contain", "Invalid login credentials.")
+    });
 });
