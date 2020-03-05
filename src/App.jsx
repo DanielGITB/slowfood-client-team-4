@@ -2,21 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './App.css'
 import LoginForm from './components/LoginForm'
+import { authenticate } from './modules/auth'
 
-// let foodlist = [
-//   ['potatis', 'plockad på dom hallänska vidderna', 98],
-//   ['fisk', 'lax', 130],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210],
-//   ['kött', 'entrecote', 210]
-// ]
 
 class App extends Component {
   state = { foodItems: [] }
@@ -27,6 +14,19 @@ class App extends Component {
         foodItems: response.data
       })
     })
+  }
+
+  onLogin = async e => {
+    e.preventDefault();
+    const response = await authenticate(
+      e.target.email.value,
+      e.target.password.value
+    );
+    if (response.authenticated) {
+      this.setState({authenticated: true });
+    } else {
+      this.setState({ message: response.message, renderLoginForm: false})
+    }
   }
 
   render () {
